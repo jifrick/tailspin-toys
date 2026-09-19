@@ -6,8 +6,10 @@ import { drizzle } from 'drizzle-orm/sqlite-proxy';
 import type { AsyncRemoteCallback, SqliteRemoteDatabase } from 'drizzle-orm/sqlite-proxy';
 import * as schema from '../../db/schema';
 
+/** Drizzle database type backed by the application's SQLite schema. */
 export type Database = SqliteRemoteDatabase<typeof schema>;
 
+/** Pair of Drizzle and native SQLite clients used during setup and migrations. */
 export interface DatabaseConnection {
     db: Database;
     sqlite: DatabaseSync;
@@ -60,6 +62,12 @@ function createRemoteCallback(sqlite: DatabaseSync): AsyncRemoteCallback {
 }
 
 /** Run generated migration statements atomically through Node's SQLite driver. */
+/**
+ * Executes migration statements in one transaction.
+ *
+ * @param sqlite - Native SQLite connection receiving the statements.
+ * @param queries - Generated SQL statements to apply.
+ */
 export function executeMigrationQueries(sqlite: DatabaseSync, queries: string[]): void {
     sqlite.exec('BEGIN');
     try {
@@ -74,11 +82,23 @@ export function executeMigrationQueries(sqlite: DatabaseSync, queries: string[])
 }
 
 /** Create a Drizzle client for the given local SQLite connection URL. */
+/**
+ * Creates a Drizzle client for a local SQLite URL.
+ *
+ * @param url - Local `file:` URL or `:memory:`; defaults to `DATABASE_URL`.
+ * @returns A Drizzle database client.
+ */
 export function createDatabase(url: string = process.env.DATABASE_URL ?? DEFAULT_DATABASE_URL): Database {
     return createDatabaseConnection(url).db;
 }
 
 /** Create the Drizzle client and its Node SQLite connection for migration workflows. */
+/**
+ * Creates Drizzle and native SQLite clients for a local database.
+ *
+ * @param url - Local `file:` URL or `:memory:`; defaults to `DATABASE_URL`.
+ * @returns The clients used by application queries and migrations.
+ */
 export function createDatabaseConnection(
     url: string = process.env.DATABASE_URL ?? DEFAULT_DATABASE_URL,
 ): DatabaseConnection {
@@ -89,6 +109,11 @@ export function createDatabaseConnection(
 }
 
 /** Shared singleton database client used by pages at build time. */
+/**
+ * Returns the shared build-time database client.
+ *
+ * @returns The cached Drizzle database client.
+ */
 export function getDatabase(): Database {
     if (!cachedDb) {
         cachedDb = createDatabase();

@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
+/** Properties accepted by the category or publisher tag. */
 interface Props extends Omit<HTMLAttributes<'span'>, 'color'> {
     /** Color theme for the tag. */
     color?: 'blue' | 'purple';
