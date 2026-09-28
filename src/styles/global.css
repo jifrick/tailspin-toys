@@ -1,1 +1,68 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html:has(.devbrief-shell) {
+  background-color: #0a0d13;
+  color-scheme: dark;
+}
+
+body:has(.devbrief-shell) {
+  margin: 0;
+  background-color: #0a0d13;
+}
+
+.devbrief-shell {
+  background:
+    radial-gradient(ellipse 60% 32% at 55% -10%, rgb(91 57 163 / 12%), transparent 70%),
+    #0a0d13;
+  font-family: var(--font-sans);
+}
+
+.devbrief-textarea {
+  scrollbar-color: #373047 transparent;
+}
+
+.brief-section {
+  animation: brief-enter 360ms both;
+}
+
+.brief-empty-orbit {
+  animation: orbit-glow 4s ease-in-out infinite;
+}
+
+@keyframes brief-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes orbit-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 42px -26px rgb(167 139 250 / 45%);
+  }
+
+  50% {
+    box-shadow: 0 0 58px -20px rgb(167 139 250 / 55%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
