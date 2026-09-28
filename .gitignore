@@ -29,6 +29,9 @@ pnpm-debug.log*
 /blob-report/
 /playwright/.cache/
 
+# local tooling and generated artifacts
+.vite/
+
 # editors
 .idea/
 *.swp

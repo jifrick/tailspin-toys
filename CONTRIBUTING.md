@@ -49,6 +49,13 @@ Before you can run and test the application locally, you'll need to install:
 
 ## Making Changes
 
+### DevBrief
+
+- The `/devbrief` page is an interactive React island inside the existing Astro site; preserve the existing Tailspin Toys routes and database.
+- Keep issue parsing deterministic and browser-local. Do not send issue text to a server or describe the rule-based parser as AI.
+- Keep parsing, Markdown formatting, shared types, and UI in their focused `src/lib/devbrief/`, `src/types/`, and `src/components/devbrief/` modules.
+- Add unit tests for parser or formatter behavior and Playwright coverage for user-facing DevBrief workflows.
+
 ### Data Layer (Drizzle + Node SQLite)
 
 - Define tables in `db/schema.ts`; generate a migration with `npm run db:generate` after schema changes
