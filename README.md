@@ -73,6 +73,10 @@ npm run lint
 
 ESLint is also run automatically in CI on pull requests to `main`.
 
+## Coding standards
+
+Repository-specific guidance is maintained in [`.github/instructions`](./.github/instructions/). In summary, comments should explain intent and decisions rather than restate code, and stale comments should be updated or removed with the related change. Every exported function in `db/` and `src/lib/` needs TSDoc/JSDoc describing its purpose, parameters, and return value, including injectable database arguments. Reusable Astro components document their `Props` interfaces and non-obvious properties. TypeScript follows the existing four-space, single-quote, semicolon, and trailing-comma style; exported APIs use explicit types and `any` is avoided. Run `npm run lint`, `npm run typecheck`, `npm run typecheck:astro`, and `npm run test:unit` before submitting changes.
+
 ## Type checking
 
 The project runs on **TypeScript 7** (the native Go compiler, `tsgo`) for type checking, adopted side-by-side via the [`@typescript/native-preview`](https://www.npmjs.com/package/@typescript/native-preview) package. The classic `typescript` package is intentionally kept at v6 so ESLint + `typescript-eslint` and `astro check` keep working unchanged — TypeScript 7's programmatic API isn't ready for those tools yet.

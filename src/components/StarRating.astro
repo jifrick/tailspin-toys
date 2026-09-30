@@ -1,7 +1,9 @@
 ---
 import { clampRating, formatStarRating } from '../lib/ratings';
 
+/** Properties accepted by the star-rating display. */
 interface Props {
+    /** Rating to display; `null` hides the rating block. */
     rating: number | null;
 }
 
