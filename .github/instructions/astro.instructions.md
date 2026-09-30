@@ -7,7 +7,7 @@ applyTo: '**/*.astro'
 
 ## Astro Component Patterns
 
-Astro handles everything in the UI: pages, layouts, components, routing, and content. The site is **fully prerendered** (`output: 'static'`) — there is no client-side UI framework and no separate API server. Pages read data **directly in frontmatter** at build time via the Drizzle/Node SQLite data-access helpers in `src/lib/`.
+Astro handles pages, layouts, components, routing, and static content. The site is **fully prerendered** (`output: 'static'`) with no separate API server. Pages read data **directly in frontmatter** at build time via the Drizzle/Node SQLite data-access helpers in `src/lib/`. Most UI is Astro; the established `/devbrief` and `/url-cleaner` tools are React islands for stateful browser interactions.
 
 ### Component Structure
 
@@ -104,7 +104,7 @@ const game = await getGameById(getDatabase(), Number(id));
 
 ## Client Interactivity (rare)
 
-There is no Svelte/React layer. When a page genuinely needs client behaviour, add a scoped Astro `<script>` using standard DOM APIs. Prefer native interactive elements (`<button>`, `<a href>`) so keyboard and focus behaviour come for free.
+For small interactions, add a scoped Astro `<script>` using standard DOM APIs. Reuse the existing React integration for stateful tool pages that fit the `/devbrief` and `/url-cleaner` patterns; do not add another client framework or expand client-side code without a genuine need. Prefer native interactive elements (`<button>`, `<a href>`) so keyboard and focus behaviour come for free.
 
 ## TypeScript
 

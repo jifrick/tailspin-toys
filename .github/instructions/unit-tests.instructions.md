@@ -7,8 +7,8 @@ applyTo: '**/*.test.ts'
 
 Unit tests run with **Vitest** (`npm run test:unit`). They cover the two highest-value, framework-free layers:
 
-1. **Pure transforms** (`db/transforms.ts`) — CSV parsing, description building, de-duplication, deterministic ratings.
-2. **Data-access helpers** (`src/lib/games.ts`) — ordering, lookups — exercised against a real in-memory **Node SQLite** database.
+1. **Pure transforms and browser utilities** (`db/transforms.ts`, `src/lib/url-cleaner.ts`) — deterministic CSV transforms and URL inspection/rewriting rules.
+2. **Data-access helpers** (`src/lib/games.ts`) — ordering and lookups — exercised against a real in-memory **Node SQLite** database.
 
 > [!IMPORTANT]
 > Keep tests independent of the Astro runtime. Helpers accept an **injectable `db`** argument; tests pass an in-memory database, pages pass the real client. Never start an Astro server to unit test data logic.
@@ -16,6 +16,7 @@ Unit tests run with **Vitest** (`npm run test:unit`). They cover the two highest
 ## File Structure
 
 - Co-locate tests next to the code: `transforms.test.ts` beside `transforms.ts`, `games.test.ts` beside `games.ts`.
+- Test pure browser utilities without the Astro runtime or network access; keep `url-cleaner.test.ts` beside `url-cleaner.ts`.
 - Name pattern: `<module>.test.ts`.
 - Use `describe('<module / function>')` blocks and `it('does X when Y')` cases.
 - Add type annotations on helpers and fixtures — this codebase requires explicit types.
