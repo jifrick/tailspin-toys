@@ -56,6 +56,12 @@ Before you can run and test the application locally, you'll need to install:
 - Keep parsing, Markdown formatting, shared types, and UI in their focused `src/lib/devbrief/`, `src/types/`, and `src/components/devbrief/` modules.
 - Add unit tests for parser or formatter behavior and Playwright coverage for user-facing DevBrief workflows.
 
+### URL tracking cleaner
+
+- The `/url-cleaner` page is a browser-local React island; never send submitted URLs to a server or persist them.
+- Keep URL inspection and rewriting in the pure `src/lib/url-cleaner.ts` helper. Only add explicitly recognized tracking keys, preserve unknown parameters by default, and document the limitations.
+- Add Vitest coverage for URL transformations and Playwright coverage for reviewing/restoring candidates and copying the result.
+
 ### Data Layer (Drizzle + Node SQLite)
 
 - Define tables in `db/schema.ts`; generate a migration with `npm run db:generate` after schema changes

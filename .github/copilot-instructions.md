@@ -89,12 +89,15 @@ This is a crowdfunding platform for games with a developer theme. The applicatio
 The application lives at the repository root:
 
 - `db/`: Drizzle schema, migrations, transforms, seed, and `games.csv`
-- `src/lib/`: Node SQLite client (`db.ts`) and data-access helpers (`games.ts`)
+- `src/lib/`: Node SQLite client (`db.ts`), data-access helpers (`games.ts`), and pure browser tool logic such as the URL cleaner
 - `src/components/`: reusable `.astro` components
+- `src/components/devbrief/` and `src/components/url-cleaner/`: the existing React islands for browser-local tools
 - `src/layouts/`: Astro layout templates
-- `src/pages/`: Astro page routes (`index.astro` listing, `game/[id].astro`, `404.astro`, `about.astro`)
+- `src/pages/`: Astro page routes (`index.astro` listing, `game/[id].astro`, `url-cleaner.astro`, `devbrief.astro`, `404.astro`, `about.astro`)
 - `src/styles/`: CSS and Tailwind configuration
 - `src/types/`: TypeScript interfaces (Game, Publisher, Category)
 - `e2e-tests/`: Playwright E2E tests (home, games, accessibility)
 - `drizzle.config.ts`, `vitest.config.ts`, `astro.config.mjs`, `playwright.config.ts`: tooling config
 - `README.md`: Project documentation
+
+The `/url-cleaner` tool processes submitted URLs only in the browser. Keep its matching rules explicit and conservative, preserve unknown query parameters by default, and cover transformations in `src/lib/url-cleaner.test.ts`.

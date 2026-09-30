@@ -12,7 +12,8 @@ This file defines the central UI development strategy for Tailspin Toys. Technol
 
 - **Astro** (`.astro` files): Pages, layouts, components, routing, and static content. The site is fully prerendered (`output: 'static'`), so components render to HTML at build time.
 - **Tailwind CSS** (utility classes): Styling
-- **Astro `<script>`**: Reach for a small client-side script only when genuine interactivity is required — there is no client-side UI framework.
+- **React islands**: The existing `/devbrief` and `/url-cleaner` tools use React for stateful browser interactions; keep other pages Astro-first and do not add a framework without a genuine need.
+- **Astro `<script>`**: Use a small scoped script for simple client-side interactions.
 
 Refer to technology-specific instruction files:
 - [`astro.instructions.md`](astro.instructions.md) - Astro pages, layouts, and components
