@@ -115,10 +115,12 @@ function makeBrief(issue: string): DevBrief {
   const sections = parseIssueToSections(issue);
   const problem = sections.find((section) => section.id === 'problem')?.items[0];
   if (!problem) throw new Error('Add a short problem summary before generating a brief.');
+  const title = createBriefTitle(problem);
+  if (!title) throw new Error('Add a short problem summary before generating a brief.');
 
   return {
     id: window.crypto.randomUUID(),
-    title: createBriefTitle(problem),
+    title,
     issue,
     createdAt: new Date().toISOString(),
     sections,
