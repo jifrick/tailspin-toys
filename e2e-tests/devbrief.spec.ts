@@ -18,9 +18,12 @@ test.describe('DevBrief', () => {
     await expect(page.getByTestId('brief-section-problem')).toContainText(
       'The game search filter resets',
     );
+    await expect(page.getByTestId('brief-section-reproduction-steps')).toContainText(
+      'No reproduction steps were included in the issue.',
+    );
     await expect(page.getByTestId('brief-section-implementation-steps')).toBeVisible();
     await expect(page.getByTestId('brief-section-testing-checklist')).toBeVisible();
-    await expect(page.getByTestId('brief-panel').locator('article')).toHaveCount(10);
+    await expect(page.getByTestId('brief-panel').locator('article')).toHaveCount(11);
 
     const download = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download .md' }).click();
@@ -29,6 +32,22 @@ test.describe('DevBrief', () => {
     );
     await page.getByRole('button', { name: 'Copy full brief' }).click();
     await expect(page.getByTestId('toast')).toContainText('Full brief copied');
+  });
+
+  test('includes reproduction steps from a Markdown issue template', async ({ page }) => {
+    await page
+      .getByLabel('Describe the issue to turn into a development brief')
+      .fill(`## Problem
+Saving a profile shows an error.
+
+### Steps to Reproduce
+1. Open the account settings.
+2. Click Save.`);
+    await page.getByRole('button', { name: 'Generate brief' }).click();
+
+    const reproductionSteps = page.getByTestId('brief-section-reproduction-steps');
+    await expect(reproductionSteps).toContainText('Open the account settings.');
+    await expect(reproductionSteps).toContainText('Click Save.');
   });
 
   test('restores and deletes a brief from local history', async ({ page }) => {

@@ -6,6 +6,7 @@ import {
 
 const SECTION_TITLES: Record<DevBriefSectionId, string> = {
   problem: 'Problem',
+  'reproduction-steps': 'Reproduction Steps',
   context: 'Context',
   'expected-behavior': 'Expected Behavior',
   'current-behavior': 'Current Behavior',
@@ -18,6 +19,7 @@ const SECTION_TITLES: Record<DevBriefSectionId, string> = {
 };
 
 const EMPTY_SECTION_MESSAGES: Partial<Record<DevBriefSectionId, string[]>> = {
+  'reproduction-steps': ['No reproduction steps were included in the issue.'],
   context: ['No environment or setup details were included in the issue.'],
   'expected-behavior': ['The desired outcome is not specified; clarify it before implementation.'],
   'current-behavior': ['The observed behavior is not specified; add steps or an example.'],
@@ -40,6 +42,11 @@ const SECTION_ALIASES: Record<string, DevBriefSectionId> = {
   problem: 'problem',
   summary: 'problem',
   issue: 'problem',
+  'steps to reproduce': 'reproduction-steps',
+  'reproduction steps': 'reproduction-steps',
+  'repro steps': 'reproduction-steps',
+  'how to reproduce': 'reproduction-steps',
+  'to reproduce': 'reproduction-steps',
   context: 'context',
   environment: 'context',
   expected: 'expected-behavior',
@@ -58,10 +65,11 @@ const SECTION_ALIASES: Record<string, DevBriefSectionId> = {
 };
 
 const HEADING_PATTERN =
-  /^\s{0,3}(?:#{1,6}\s*)?(Problem|Summary|Issue|Context|Environment|Expected(?: Behavior)?|Current(?: Behavior)?|Actual Behavior|Requirements|Acceptance Criteria|Technical Considerations|Edge Cases|Implementation Steps|Testing Checklist|Tests?)\s*(?:[:\-–—]\s*(.*))?\s*$/i;
+  /^\s{0,3}(?:#{1,6}\s*)?(Problem|Summary|Issue|Steps to Reproduce|Reproduction Steps|Repro Steps|How to Reproduce|To Reproduce|Context|Environment|Expected(?: Behavior)?|Current(?: Behavior)?|Actual Behavior|Requirements|Acceptance Criteria|Technical Considerations|Edge Cases|Implementation Steps|Testing Checklist|Tests?)\s*(?:[:\-–—]\s*(.*))?\s*$/i;
 
 const CATEGORY_PATTERNS: Partial<Record<DevBriefSectionId, RegExp>> = {
   'acceptance-criteria': /\bacceptance criteria\b|\bgiven\b.*\bwhen\b.*\bthen\b/i,
+  'reproduction-steps': /\b(?:steps? to reproduce|reproduction steps?|repro steps?|how to reproduce|to reproduce)\b/i,
   context: /\b(browser|operating system|environment|version|on desktop|on mobile|using|reproduced with)\b/i,
   'expected-behavior': /\b(expected|should|want(?:s|ed)?|would like|desired|given .+ when .+ then)\b/i,
   'current-behavior': /\b(currently|actual(?:ly)?|instead|observed|happens|doesn't|does not|fails?|broken|not working|error|wrong)\b/i,
