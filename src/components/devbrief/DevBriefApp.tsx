@@ -13,6 +13,8 @@ import {
 const STORAGE_KEY = 'devbrief.history.v1';
 const MAX_HISTORY = 20;
 const MAX_ISSUE_LENGTH = 10_000;
+const HISTORY_QUOTA_ERROR = 'Browser storage is full. Delete an older brief to save new ones.';
+const HISTORY_SAVE_ERROR = 'Could not save brief history in this browser.';
 
 const SECTION_ICONS: Record<DevBriefSectionId, string> = {
   problem: 'bug',
@@ -176,12 +178,16 @@ export default function DevBriefApp() {
     if (!historyLoaded || !canPersistHistory.current) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+      setError((currentError) =>
+        currentError === HISTORY_QUOTA_ERROR || currentError === HISTORY_SAVE_ERROR
+          ? ''
+          : currentError,
+      );
     } catch (saveError) {
-      canPersistHistory.current = false;
       if (saveError instanceof DOMException && saveError.name === 'QuotaExceededError') {
-        setError('Browser storage is full. Delete an older brief to save new ones.');
+        setError(HISTORY_QUOTA_ERROR);
       } else {
-        setError('Could not save brief history in this browser.');
+        setError(HISTORY_SAVE_ERROR);
       }
     }
   }, [history, historyLoaded]);

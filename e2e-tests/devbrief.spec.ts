@@ -49,6 +49,37 @@ test.describe('DevBrief', () => {
     await expect(page.getByText('Nothing here yet')).toBeVisible();
   });
 
+  test('retries saving history after a storage write fails', async ({ page }) => {
+    const issueInput = page.getByLabel('Describe the issue to turn into a development brief');
+    await issueInput.fill('First saved issue.');
+    await page.getByRole('button', { name: 'Generate brief' }).click();
+    await expect(page.getByRole('button', { name: 'Delete First saved issue' })).toBeVisible();
+
+    await page.evaluate(() => {
+      const originalSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (key, value) {
+        if (key === 'devbrief.history.v1') {
+          Storage.prototype.setItem = originalSetItem;
+          throw new DOMException('Storage is full.', 'QuotaExceededError');
+        }
+        originalSetItem.call(this, key, value);
+      };
+    });
+
+    await issueInput.fill('Second saved issue.');
+    await page.getByRole('button', { name: 'Generate brief' }).click();
+    await expect(page.getByRole('alert')).toContainText('Browser storage is full');
+
+    await page.getByRole('button', { name: 'Delete Second saved issue' }).click();
+    await expect.poll(() =>
+      page.evaluate(() => {
+        const stored = window.localStorage.getItem('devbrief.history.v1');
+        return stored ? JSON.parse(stored).map((brief: { issue: string }) => brief.issue) : [];
+      }),
+    ).toEqual(['First saved issue.']);
+    await expect(page.getByRole('alert')).toHaveCount(0);
+  });
+
   test('supports keyboard shortcuts and accessible empty-issue feedback', async ({ page }) => {
     const issueInput = page.getByLabel('Describe the issue to turn into a development brief');
     await page.getByRole('button', { name: 'Generate brief' }).click();
