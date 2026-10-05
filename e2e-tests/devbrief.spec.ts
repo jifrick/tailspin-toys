@@ -80,6 +80,18 @@ test.describe('DevBrief', () => {
     await expect(page.getByRole('alert')).toHaveCount(0);
   });
 
+  test('rejects issue text that would produce an empty brief title', async ({ page }) => {
+    await page
+      .getByLabel('Describe the issue to turn into a development brief')
+      .fill('...');
+    await page.getByRole('button', { name: 'Generate brief' }).click();
+
+    await expect(page.getByRole('alert')).toContainText(
+      'Add a short problem summary before generating a brief.',
+    );
+    await expect(page.getByText('Nothing here yet')).toBeVisible();
+  });
+
   test('supports keyboard shortcuts and accessible empty-issue feedback', async ({ page }) => {
     const issueInput = page.getByLabel('Describe the issue to turn into a development brief');
     await page.getByRole('button', { name: 'Generate brief' }).click();
