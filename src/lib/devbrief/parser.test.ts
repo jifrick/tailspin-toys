@@ -12,11 +12,12 @@ function sectionItems(
 }
 
 describe('parseIssueToSections', () => {
-  it('returns all ten sections in a stable order for a concise issue', () => {
+  it('returns all eleven sections in a stable order for a concise issue', () => {
     const sections = parseIssueToSections('The save button never finishes loading.');
 
     expect(sections.map(({ title }) => title)).toEqual([
       'Problem',
+      'Reproduction Steps',
       'Context',
       'Expected Behavior',
       'Current Behavior',
@@ -33,6 +34,26 @@ describe('parseIssueToSections', () => {
     expect(sectionItems(sections, 'expected-behavior')).toContain(
       'The desired outcome is not specified; clarify it before implementation.',
     );
+  });
+
+  it.each([
+    ['Steps to Reproduce', 'Open the account settings.', 'Click Save.'],
+    ['Reproduction Steps', 'Open the account settings.', 'Click Save.'],
+    ['How to Reproduce', 'Open the account settings.', 'Click Save.'],
+  ])('preserves numbered steps under the %s heading', (heading, firstStep, secondStep) => {
+    const sections = parseIssueToSections(
+      `## Problem
+Saving a profile shows an error.
+
+### ${heading}
+1. ${firstStep}
+2. ${secondStep}`,
+    );
+
+    expect(sectionItems(sections, 'reproduction-steps')).toEqual([
+      firstStep,
+      secondStep,
+    ]);
   });
 
   it('preserves explicitly labeled multiline sections and infers unlabeled details', () => {

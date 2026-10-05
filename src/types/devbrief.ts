@@ -1,5 +1,6 @@
 export const DEVBRIEF_SECTION_IDS = [
   'problem',
+  'reproduction-steps',
   'context',
   'expected-behavior',
   'current-behavior',

@@ -18,6 +18,7 @@ const HISTORY_SAVE_ERROR = 'Could not save brief history in this browser.';
 
 const SECTION_ICONS: Record<DevBriefSectionId, string> = {
   problem: 'bug',
+  'reproduction-steps': 'list',
   context: 'layers',
   'expected-behavior': 'spark',
   'current-behavior': 'activity',
