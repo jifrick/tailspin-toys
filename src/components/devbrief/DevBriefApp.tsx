@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { DEVBRIEF_EXAMPLES } from '../../lib/devbrief/examples';
-import { briefToMarkdown, sectionToMarkdown } from '../../lib/devbrief/markdown';
+import {
+  briefToMarkdown,
+  createMarkdownFilename,
+  sectionToMarkdown,
+} from '../../lib/devbrief/markdown';
 import { createBriefTitle, parseIssueToSections } from '../../lib/devbrief/parser';
 import {
   DEVBRIEF_SECTION_IDS,
@@ -288,7 +292,7 @@ export default function DevBriefApp() {
     );
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${brief.title.toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'devbrief'}.md`;
+    link.download = createMarkdownFilename(brief.title);
     link.click();
     URL.revokeObjectURL(url);
     notify('Markdown file downloaded.');

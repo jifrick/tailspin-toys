@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { briefToMarkdown, sectionToMarkdown } from './markdown';
+import {
+  briefToMarkdown,
+  createMarkdownFilename,
+  sectionToMarkdown,
+} from './markdown';
 import { createBriefTitle, parseIssueToSections } from './parser';
 
 function sectionItems(
@@ -12,6 +16,15 @@ function sectionItems(
 }
 
 describe('parseIssueToSections', () => {
+  it.each([
+    ['A save issue', 'a-save-issue.md'],
+    ['Résumé test', 'résumé-test.md'],
+    ['遊びの名前', '遊びの名前.md'],
+    ['!!!', 'devbrief.md'],
+  ])('creates a safe descriptive filename for %s', (title, filename) => {
+    expect(createMarkdownFilename(title)).toBe(filename);
+  });
+
   it('returns all eleven sections in a stable order for a concise issue', () => {
     const sections = parseIssueToSections('The save button never finishes loading.');
 

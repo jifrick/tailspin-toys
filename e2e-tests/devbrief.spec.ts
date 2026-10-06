@@ -40,6 +40,20 @@ test.describe('DevBrief', () => {
     );
   });
 
+  test('downloads a descriptive filename for a Unicode brief title', async ({ page }) => {
+    await page
+      .getByLabel('Describe the issue to turn into a development brief')
+      .fill('遊びの名前が保存されない。');
+    await page.getByRole('button', { name: 'Generate brief' }).click();
+    await expect(page.getByTestId('brief-section-problem')).toContainText(
+      '遊びの名前が保存されない。',
+    );
+
+    const download = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Download .md' }).click();
+    expect((await download).suggestedFilename()).toBe('遊びの名前が保存されない.md');
+  });
+
   test('includes reproduction steps from a Markdown issue template', async ({ page }) => {
     await page
       .getByLabel('Describe the issue to turn into a development brief')
