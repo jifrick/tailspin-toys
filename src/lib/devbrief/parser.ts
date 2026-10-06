@@ -42,6 +42,7 @@ const SECTION_ALIASES: Record<string, DevBriefSectionId> = {
   problem: 'problem',
   summary: 'problem',
   issue: 'problem',
+  description: 'problem',
   'steps to reproduce': 'reproduction-steps',
   'reproduction steps': 'reproduction-steps',
   'repro steps': 'reproduction-steps',
@@ -65,7 +66,7 @@ const SECTION_ALIASES: Record<string, DevBriefSectionId> = {
 };
 
 const HEADING_PATTERN =
-  /^\s{0,3}(?:#{1,6}\s*)?(Problem|Summary|Issue|Steps to Reproduce|Reproduction Steps|Repro Steps|How to Reproduce|To Reproduce|Context|Environment|Expected(?: Behavior)?|Current(?: Behavior)?|Actual Behavior|Requirements|Acceptance Criteria|Technical Considerations|Edge Cases|Implementation Steps|Testing Checklist|Tests?)\s*(?:[:\-–—]\s*(.*))?\s*$/i;
+  /^\s{0,3}(?:#{1,6}\s*)?(Problem|Summary|Issue|Description|Steps to Reproduce|Reproduction Steps|Repro Steps|How to Reproduce|To Reproduce|Context|Environment|Expected(?: Behavior)?|Current(?: Behavior)?|Actual Behavior|Requirements|Acceptance Criteria|Technical Considerations|Edge Cases|Implementation Steps|Testing Checklist|Tests?)\s*(?:[:\-–—]\s*(.*))?\s*$/i;
 
 const CATEGORY_PATTERNS: Partial<Record<DevBriefSectionId, RegExp>> = {
   'acceptance-criteria': /\bacceptance criteria\b|\bgiven\b.*\bwhen\b.*\bthen\b/i,

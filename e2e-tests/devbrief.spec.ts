@@ -43,7 +43,7 @@ test.describe('DevBrief', () => {
   test('includes reproduction steps from a Markdown issue template', async ({ page }) => {
     await page
       .getByLabel('Describe the issue to turn into a development brief')
-      .fill(`## Problem
+      .fill(`## Description
 Saving a profile shows an error.
 
 ### Steps to Reproduce
@@ -60,6 +60,9 @@ Saving a profile shows an error.
         (await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, '\n'),
       )
       .toBe('## Reproduction Steps\n\n1. Open the account settings.\n2. Click Save.');
+    await expect(page.getByTestId('brief-section-problem')).toContainText(
+      'Saving a profile shows an error.',
+    );
   });
 
   test('restores and deletes a brief from local history', async ({ page }) => {
