@@ -80,6 +80,19 @@ Current behavior: the full list is shown instead.`,
     );
   });
 
+  it('maps a Description heading to the problem section', () => {
+    const sections = parseIssueToSections(
+      `## Description
+Saving a profile shows an error.
+The error occurs after choosing an avatar.`,
+    );
+
+    expect(sectionItems(sections, 'problem')).toEqual([
+      'Saving a profile shows an error.',
+      'The error occurs after choosing an avatar.',
+    ]);
+  });
+
   it('does not duplicate facts that are both explicitly labeled and inferable', () => {
     const sections = parseIssueToSections(
       '## Requirements\nThe API must reject empty names.',
