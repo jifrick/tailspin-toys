@@ -5,6 +5,13 @@ applyTo: '**/*.{astro,css}'
 
 # Tailwind CSS Instructions
 
+## Comments and Documentation
+
+- Comment intent, rationale, and non-obvious decisions; do not restate what the code already makes clear.
+- Prefer descriptive names and simple structure over explanatory comments.
+- Keep comments concise and update or remove them when the related code changes.
+- Use TSDoc/JSDoc for exported APIs rather than relying on inline implementation comments.
+
 ## Tailwind CSS v4 Configuration
 
 This project uses Tailwind CSS v4.1.14 via the `@tailwindcss/vite` plugin.
