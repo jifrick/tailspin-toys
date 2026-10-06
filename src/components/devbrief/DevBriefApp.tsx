@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { DEVBRIEF_EXAMPLES } from '../../lib/devbrief/examples';
-import { briefToMarkdown } from '../../lib/devbrief/markdown';
+import { briefToMarkdown, sectionToMarkdown } from '../../lib/devbrief/markdown';
 import { createBriefTitle, parseIssueToSections } from '../../lib/devbrief/parser';
 import {
   DEVBRIEF_SECTION_IDS,
@@ -607,7 +607,7 @@ export default function DevBriefApp() {
                           data-testid={`copy-section-${section.id}`}
                           onClick={() =>
                             copyText(
-                              `## ${section.title}\n\n${section.items.map((item) => `- ${item}`).join('\n')}`,
+                              sectionToMarkdown(section),
                               `${section.title} copied.`,
                             )
                           }

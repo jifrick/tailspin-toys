@@ -54,6 +54,12 @@ Saving a profile shows an error.
     const reproductionSteps = page.getByTestId('brief-section-reproduction-steps');
     await expect(reproductionSteps).toContainText('Open the account settings.');
     await expect(reproductionSteps).toContainText('Click Save.');
+    await reproductionSteps.getByRole('button', { name: 'Copy Reproduction Steps' }).click();
+    await expect
+      .poll(async () =>
+        (await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, '\n'),
+      )
+      .toBe('## Reproduction Steps\n\n1. Open the account settings.\n2. Click Save.');
   });
 
   test('restores and deletes a brief from local history', async ({ page }) => {

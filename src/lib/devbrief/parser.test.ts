@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { briefToMarkdown } from './markdown';
+import { briefToMarkdown, sectionToMarkdown } from './markdown';
 import { createBriefTitle, parseIssueToSections } from './parser';
 
 function sectionItems(
@@ -124,5 +124,36 @@ Current behavior: the full list is shown instead.`,
     expect(markdown).toContain('## Technical Considerations');
     expect(markdown).toContain('## Testing Checklist');
     expect(markdown.endsWith('\n')).toBe(true);
+  });
+
+  it('keeps reproduction steps ordered in full and section Markdown exports', () => {
+    const brief = {
+      id: 'brief-2',
+      title: 'A save issue',
+      issue: `## Problem
+Saving a profile shows an error.
+
+## Steps to Reproduce
+1. Open the account settings.
+2. Click Save.`,
+      createdAt: '2026-09-28T00:00:00.000Z',
+      sections: parseIssueToSections(`## Problem
+Saving a profile shows an error.
+
+## Steps to Reproduce
+1. Open the account settings.
+2. Click Save.`),
+    };
+    const reproductionSteps = brief.sections.find(
+      (section) => section.id === 'reproduction-steps',
+    );
+    if (!reproductionSteps) throw new Error('Missing reproduction steps section.');
+
+    expect(sectionToMarkdown(reproductionSteps)).toBe(
+      '## Reproduction Steps\n\n1. Open the account settings.\n2. Click Save.',
+    );
+    expect(briefToMarkdown(brief)).toContain(
+      '## Reproduction Steps\n\n1. Open the account settings.\n2. Click Save.',
+    );
   });
 });
