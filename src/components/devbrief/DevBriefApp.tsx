@@ -662,7 +662,7 @@ export default function DevBriefApp() {
                 </h2>
                 <p className="mt-2 max-w-[290px] text-xs leading-[1.8] text-slate-400">
                   Add an issue on the left and generate a brief. We&apos;ll organize it
-                  into ten practical sections, ready to share.
+                  into eleven practical sections, ready to share.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
                   {['Problem', 'Requirements', 'Acceptance criteria'].map((label) => (
