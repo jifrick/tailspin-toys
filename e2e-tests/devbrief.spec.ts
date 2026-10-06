@@ -34,6 +34,12 @@ test.describe('DevBrief', () => {
     await expect(page.getByTestId('toast')).toContainText('Full brief copied');
   });
 
+  test('describes the current number of brief sections in the empty state', async ({ page }) => {
+    await expect(page.getByTestId('brief-panel')).toContainText(
+      'into eleven practical sections',
+    );
+  });
+
   test('includes reproduction steps from a Markdown issue template', async ({ page }) => {
     await page
       .getByLabel('Describe the issue to turn into a development brief')
