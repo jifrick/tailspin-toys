@@ -75,14 +75,13 @@ describe('inspectUrl', () => {
   });
 
   it('returns a clear empty state for a valid URL with no recognized tracking parameters', () => {
-    const inspection = inspectUrl('https://example.com/search?q=toys&state=active#results');
+    const input = 'https://EXAMPLE.com:443/search?q=toys&state=active#results';
+    const inspection = inspectUrl(input);
 
     expect(inspection.status).toBe('valid');
     if (inspection.status !== 'valid') return;
 
     expect(inspection.candidates).toEqual([]);
-    expect(createCleanedUrl(inspection, new Set())).toBe(
-      'https://example.com/search?q=toys&state=active#results',
-    );
+    expect(createCleanedUrl(inspection, new Set())).toBe(input);
   });
 });

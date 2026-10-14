@@ -78,10 +78,11 @@ export function inspectUrl(input: string): UrlInspection {
     };
   }
 
-  const url = parsedUrl.href;
-  const fragmentIndex = url.indexOf('#');
-  const fragment = fragmentIndex < 0 ? '' : url.slice(fragmentIndex);
-  const beforeFragment = fragmentIndex < 0 ? url : url.slice(0, fragmentIndex);
+  const normalizedUrl = parsedUrl.href;
+  const fragmentIndex = normalizedUrl.indexOf('#');
+  const fragment = fragmentIndex < 0 ? '' : normalizedUrl.slice(fragmentIndex);
+  const beforeFragment =
+    fragmentIndex < 0 ? normalizedUrl : normalizedUrl.slice(0, fragmentIndex);
   const queryIndex = beforeFragment.indexOf('?');
   const base = queryIndex < 0 ? beforeFragment : beforeFragment.slice(0, queryIndex);
   const queryString = queryIndex < 0 ? '' : beforeFragment.slice(queryIndex + 1);
@@ -104,7 +105,7 @@ export function inspectUrl(input: string): UrlInspection {
 
   return {
     status: 'valid',
-    url,
+    url: trimmedInput,
     base,
     fragment,
     queryParameters,
