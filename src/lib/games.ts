@@ -50,19 +50,35 @@ function baseGamesQuery(db: Database) {
         .leftJoin(publishers, eq(games.publisherId, publishers.id));
 }
 
-/** All games ordered by title. */
+/**
+ * Loads every game ordered by title.
+ *
+ * @param db - Injectable database client, including the test database.
+ * @returns All games with their category and publisher details.
+ */
 export async function getAllGames(db: Database): Promise<Game[]> {
     const rows = await baseGamesQuery(db).orderBy(asc(games.title));
     return rows.map(mapGame);
 }
 
-/** All game ids ordered by title. */
+/**
+ * Loads every game id ordered by title.
+ *
+ * @param db - Injectable database client, including the test database.
+ * @returns Game ids in deterministic title order.
+ */
 export async function getAllGameIds(db: Database): Promise<number[]> {
     const rows = await db.select({ id: games.id }).from(games).orderBy(asc(games.title));
     return rows.map((row) => row.id);
 }
 
-/** A single game by id, or null when it does not exist. */
+/**
+ * Loads one game by id.
+ *
+ * @param db - Injectable database client, including the test database.
+ * @param id - Numeric game identifier.
+ * @returns The matching game or `null` when it does not exist.
+ */
 export async function getGameById(db: Database, id: number): Promise<Game | null> {
     const row = await baseGamesQuery(db).where(eq(games.id, id)).get();
     return row ? mapGame(row) : null;

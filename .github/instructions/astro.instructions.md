@@ -109,7 +109,8 @@ For small interactions, add a scoped Astro `<script>` using standard DOM APIs. R
 ## TypeScript
 
 - Use TypeScript for type-safe props
-- Define `Props` interface in frontmatter
+- Define a `Props` interface in frontmatter and document the component contract with TSDoc.
+- Add a short property comment for each non-obvious prop, including whether it is optional and what format it accepts.
 - Type component imports and helper return values
 - Run `npx astro sync` to (re)generate route/content types before linting or type-checking
 - `.astro` files are type-checked by `npm run typecheck:astro` (which runs `astro sync` then `astro check`), on the classic `typescript` package. The pure TypeScript in `db/`, `src/lib/`, and `src/types/` is type-checked separately by `npm run typecheck` (the native TS 7 compiler, `tsgo`), which does **not** process `.astro` files.
@@ -120,3 +121,8 @@ For small interactions, add a scoped Astro `<script>` using standard DOM APIs. R
 - Minimize client-side JavaScript — the default is zero JS shipped
 - Import and use global CSS styles from layouts
 - Always include a `data-testid` on interactive elements (see `ui.instructions.md`)
+
+## Comments and Documentation
+
+- Explain why a component needs non-obvious behavior; do not comment markup that is already self-explanatory.
+- Keep component prop documentation current whenever the interface or rendered behavior changes.
