@@ -106,6 +106,17 @@ The error occurs after choosing an avatar.`,
     ]);
   });
 
+  it('uses issue details instead of an unrecognized Markdown heading as the problem', () => {
+    const sections = parseIssueToSections(
+      `## Bug Report
+The inventory screen crashes when I open a saved project.`,
+    );
+
+    expect(sectionItems(sections, 'problem')).toEqual([
+      'The inventory screen crashes when I open a saved project.',
+    ]);
+  });
+
   it('does not duplicate facts that are both explicitly labeled and inferable', () => {
     const sections = parseIssueToSections(
       '## Requirements\nThe API must reject empty names.',

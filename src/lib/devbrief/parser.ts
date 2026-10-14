@@ -88,6 +88,10 @@ function cleanLine(line: string): string {
     .trim();
 }
 
+function isMarkdownHeading(line: string): boolean {
+  return /^\s{0,3}#{1,6}(?:\s|$)/.test(line);
+}
+
 function addUnique(items: string[], value: string): void {
   const cleaned = cleanLine(value);
   if (cleaned && !items.some((item) => item.toLocaleLowerCase() === cleaned.toLocaleLowerCase())) {
@@ -132,7 +136,7 @@ function getInferredSections(issue: string): Map<DevBriefSectionId, string[]> {
   const sections = new Map<DevBriefSectionId, string[]>();
   for (const rawLine of issue.split(/\r?\n/)) {
     const line = cleanLine(rawLine);
-    if (!line || HEADING_PATTERN.test(rawLine)) continue;
+    if (!line || isMarkdownHeading(rawLine)) continue;
 
     for (const [sectionId, pattern] of Object.entries(CATEGORY_PATTERNS) as [
       DevBriefSectionId,
@@ -169,7 +173,7 @@ function getProblem(issue: string, sections: Map<DevBriefSectionId, string[]>): 
 
   const firstLine = issue
     .split(/\r?\n/)
-    .filter((line) => !HEADING_PATTERN.test(line))
+    .filter((line) => !isMarkdownHeading(line))
     .map(cleanLine)
     .find(Boolean);
   return firstLine ? [firstSentence(firstLine)] : [];
