@@ -49,6 +49,7 @@ test.describe('Game Listing and Navigation', () => {
     await test.step('Verify game title matches clicked game', async () => {
       if (gameTitle) {
         await expect(page.getByTestId('game-details-title')).toHaveText(gameTitle);
+        await expect(page).toHaveTitle(`${gameTitle} - Tailspin Toys`);
       }
     });
   });
